@@ -42,21 +42,19 @@ const updateProduct = async (req, res, next) => {
     } 
 
 
-    const deleteProduct = async (req, res, next) => {
-            let product = req.product 
-            product.remove((err) => {
-                if(err) {
-                    return res.status(400).json({
-                        error: 'oops! sorry you cant delete...'
-                    })
-                }
-                res.json({
-                    message: "deleted product successfully"
-                })
+ const deleteProduct = async (req, res, next) => {
+       let product = req.product 
+         product.remove((err) => {
+         if(err) {
+           return res.status(400).json({
+             error: 'oops! sorry you cant delete...'
+            })
            }
-        } 
-
-
+          res.json({
+       message: "deleted product successfully"
+     })
+   }
+} 
 
 module.exports = {
     getAllProduct,
