@@ -43,7 +43,6 @@ const updateProduct = async (req, res, next) => {
 
 
     const deleteProduct = async (req, res, next) => {
-        exports.remove = (req, res) => {
             let product = req.product 
             product.remove((err) => {
                 if(err) {
@@ -54,8 +53,7 @@ const updateProduct = async (req, res, next) => {
                 res.json({
                     message: "deleted product successfully"
                 })
-            })
-        }
+           }
         } 
 
 
