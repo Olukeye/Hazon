@@ -56,22 +56,28 @@ const login = async (req, res ) => {
     throw new CustomError.UnauthenticatedError("Invalid Credentials");
   }
 
-  //Now you have the user data in user variable.
-  console.log(`Active = ${user.active}`) 
-  if(user.active !== true){
-  return res.status(403).json({ msg: 'User account has been suspended!' });
-  }
-  // Make sure the user has been verified
-  if (!user.isVerified) throw new CustomError.UnauthenticatedError("Your account has not been verified");
-
   const tokenUser = createTokenUser(user);
   const token = createJWT({ payload: tokenUser });
 
   return res.status(StatusCodes.OK).json({ user: tokenUser, token });
 
 };
+const logout = (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.status(400).send('Unable to log out')
+      } else {
+        res.send('Logout successful')
+      }
+    });
+  } else {
+    res.end()
+}
+
 
 module.exports = {
   register,
   login,
+  logout
 };
