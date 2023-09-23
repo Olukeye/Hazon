@@ -65,14 +65,17 @@ const login = async (req, res ) => {
 
 
 const logout = async(req, res) => {
-  try {
-      await  await req.session == null;
-  } catch (err) {
-      console.error('Error logging out:', err);
-      return next(new Error('Error logging out'));
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.status(400).send('Unable to log out')
+      } else {
+        res.send('Logout successful')
+      }
+    });
+  } else {
+    res.end()
   }
-
-  return res.redirect("/login");
 }
 
 
