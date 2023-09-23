@@ -23,38 +23,39 @@ const createProduct = async (req, res, fields) => {
         
       await product.save();
   
-  
       res.status(StatusCodes.CREATED).json({ product});
 }
 
 const updateProduct = async (req, res, next) => {
-    
-        try {
-            const updatedProduct = await Product.findByIdAndUpdate(req.params.id,
-                { $set: req.body }, { new: true });
-                return res.status(201).json({
-                    message: "update successful",
-                    product: updatedProduct,
-                });
-        }catch (err) {
-            return next(err);
-        }
-    } 
 
-
- const deleteProduct = async (req, res, next) => {
-       let product = req.product 
-         product.remove((err) => {
-         if(err) {
-           return res.status(400).json({
-             error: 'oops! sorry you cant delete...'
-            })
-           }
-          res.json({
-       message: "deleted product successfully"
-     })
-   }
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id,
+            { $set: req.body }, { new: true });
+            return res.status(201).json({
+                message: "update successful",
+                product: updatedProduct,
+            });
+    }catch (err) {
+        return next(err);
+    }
 } 
+
+
+const deleteProduct = async (req, res, next) => {
+
+    const { id } = req.params;
+
+    try {
+     await Product.findByIdAndDelete(id);
+      res.status(200).json("Product deleted");
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(error);
+    }
+     
+}
+
+
 
 module.exports = {
     getAllProduct,

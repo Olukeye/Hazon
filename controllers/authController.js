@@ -62,17 +62,17 @@ const login = async (req, res ) => {
   return res.status(StatusCodes.OK).json({ user: tokenUser, token });
 
 };
-const logout = (req, res) => {
-  if (req.session) {
-    req.session.destroy(err => {
-      if (err) {
-        res.status(400).send('Unable to log out')
-      } else {
-        res.send('Logout successful')
-      }
-    });
-  } else {
-    res.end()
+
+
+const logout = async(req, res) => {
+  try {
+      await  await req.session == null;
+  } catch (err) {
+      console.error('Error logging out:', err);
+      return next(new Error('Error logging out'));
+  }
+
+  return res.redirect("/login");
 }
 
 
